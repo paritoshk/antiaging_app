@@ -92,7 +92,6 @@ def read_data(data="data/publications/final_database_of_papers.csv"):
     return data
 
 
-
 @st.cache(allow_output_mutation=True)
 def load_bert_model():
     """Instantiate a sentence-level allenai-specer model."""
@@ -104,7 +103,6 @@ def load_embeddings(path_to_embeddings="pickle_files/embeddings.pickle"):
     with open(path_to_embeddings, "rb") as h:
         embeddings = pickle.load(h)
     return embeddings 
-
 
 @st.cache(allow_output_mutation=True)
 def load_faiss_index(path_to_faiss="pickle_files/fiass_index.pickle"):
