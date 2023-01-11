@@ -7,6 +7,11 @@ import numpy as np
 import regex as re
 import random
 
+#author: @parkul
+#display authors from paper database
+#display keyword and authors for dropdown 
+#add wordcloud barplot and gpt2 sumamry of what each company is working on and in what topic model
+#anlysis of main Karls data
 
 st.markdown("""
 <style>
@@ -83,7 +88,7 @@ def convert_list_of_strings_to_list(list_words:list)->list:
 @st.cache(allow_output_mutation=True)
 def read_data(data="data/publications/final_database_of_papers.csv"):
     """Read the data from local."""
-    data = pd.read_csv(data)
+    data = pd.read_csv(data,index_col=0)
     # datetime conversation for display
     data['publication_date'] = pd.to_datetime(data['publication_date'])
     data['publication_date'] = data['publication_date'].dt.date
@@ -91,6 +96,29 @@ def read_data(data="data/publications/final_database_of_papers.csv"):
     data['company_name'] = data['company_name'].str.capitalize()
     return data
 
+@st.cache(allow_output_mutation=True)
+def authors_data(data="data/publications/authors_dataframe.csv"):
+    """Read the data from local."""
+    data = pd.read_csv(data,index_col=0)
+    return data
+
+
+@st.cache(allow_output_mutation=True)
+def get_author_affiliation(df:pd.DataFrame,company_name=None,id_the=31740545):
+    """ function that prints author_name, affilaition given a pubmed_id"""
+    #to avoid overflow id is given as sample value do not use it as is.
+    df_copy = df.copy(deep=True)
+    if id_the:
+        df_copy = df_copy[df_copy['pubmed_id']==id_the]
+    if company_name:
+         df_copy = df_copy[df_copy['company_name']==company_name]
+    df_copy = df_copy.reset_index(drop=True)
+    print_list = []
+    for i in range(len(df_copy['author_name'])):
+        print_list.append('{0} is the author and {1} is the affiliation'.format(df_copy['author_name'][i], df_copy['affiliation'][i]))
+    return df_copy[['author_name', 'affiliation']], print_list
+    
+        
 
 @st.cache(allow_output_mutation=True)
 def load_bert_model():
@@ -190,10 +218,10 @@ def main():
                 
                 title_str = f.iloc[0].title
                 st.markdown('<p class="big-font">{0}</p>'.format(title_str), unsafe_allow_html=True)
+                st.markdown('<p class="big-font">Affiliate Anti-Aging Company Name:{0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
                 
                 st.write(
                         f"""
-                    {newline}**Affiliate Anti-Aging Company Name**: {f.iloc[0].company_name.capitalize()}
                     {newline}**Journal**: {f.iloc[0].journal}  
                     {newline}**Publication Date**: {f.iloc[0].publication_date}  
                     {newline}**Keywords**: *{f.iloc[0].keywords}*
@@ -215,11 +243,11 @@ def main():
                    
                     title_str = f.iloc[0].title
                     st.markdown('<p class="big-font">{0}</p>'.format(title_str), unsafe_allow_html=True)
+                    st.markdown('<p class="big-font">Affiliate Anti-Aging Company Name:{0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
                 
 
                     st.write(
                         f"""
-                    {newline}**Affiliate Anti-Aging Company Name**: {f.iloc[0].company_name.capitalize()}
                     {newline}**Journal**: {f.iloc[0].journal}  
                     {newline}**Publication Date**: {f.iloc[0].publication_date}  
                     {newline}**Keywords**: *{f.iloc[0].keywords}*
@@ -229,7 +257,7 @@ def main():
                     )
             except:
                 pass #see if this works if you have multiple companies
-        st.text("*Search results may not reflect all information available in the PubMed database, please search the title or DOI to get more information.")
+        st.write("*Search results may not reflect all information available in the PubMed database, please search the title or DOI to get more information.")
     except Exception as e:
         st.write(e)
 
