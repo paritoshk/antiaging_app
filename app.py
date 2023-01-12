@@ -6,12 +6,12 @@ from sentence_transformers import SentenceTransformer
 import numpy as np
 import regex as re
 import random
-
+from ast import literal_eval
 #author: @parkul
 #display authors from paper database
 #display keyword and authors for dropdown 
 #add wordcloud barplot and gpt2 sumamry of what each company is working on and in what topic model
-#anlysis of main Karls data
+#analysis of main Karls data
 
 st.markdown("""
 <style>
@@ -19,11 +19,30 @@ st.markdown("""
     font-size:30px !important;
 }
 .medium-font {
-    font-size:15px !important;
+    font-size:20px;
 }
 </style>
 """, unsafe_allow_html=True)
 
+@st.cache(allow_output_mutation=True)
+def read_data(data="data/publications/final_database_of_papers.csv"):
+    """Read and process the data from local to avoid errors 
+    ['company_name', 'article_id', 'title', 'keywords', 'publication_date',
+       'abstract', 'journal', 'doi'] are columns that are MUST in order to run the app"""
+    try:
+        data = pd.read_csv(data,index_col=0)
+        #for some reason keyword lists are getting converted into strings - I have to stop storing data as csv 
+        data['keywords'] = data['keywords'].apply(lambda x: literal_eval(x) if "[" in x else x)
+        # datetime conversation for display
+        data['publication_date'] = pd.to_datetime(data['publication_date'])
+        data['publication_date'] = data['publication_date'].dt.date
+        # to capitalize each row in the company_name column.
+        data['company_name'] = data['company_name'].str.capitalize()
+        return data
+    except Exception as e:
+        print(e)
+        return None
+    
 @st.cache(allow_output_mutation=True)
 def find_indexes_of_matching_keywords(list_of_keywords,df,column):
     """" function that takes in a input list of strings, a dataframe and a column containing 
@@ -84,17 +103,6 @@ def convert_list_of_strings_to_list(list_words:list)->list:
             word = word.strip()
             list_output.append(word)
     return list_output
-
-@st.cache(allow_output_mutation=True)
-def read_data(data="data/publications/final_database_of_papers.csv"):
-    """Read the data from local."""
-    data = pd.read_csv(data,index_col=0)
-    # datetime conversation for display
-    data['publication_date'] = pd.to_datetime(data['publication_date'])
-    data['publication_date'] = data['publication_date'].dt.date
-    # to capitalize each row in the company_name column.
-    data['company_name'] = data['company_name'].str.capitalize()
-    return data
 
 @st.cache(allow_output_mutation=True)
 def authors_data(data="data/publications/authors_dataframe.csv"):
@@ -218,7 +226,7 @@ def main():
                 
                 title_str = f.iloc[0].title
                 st.markdown('<p class="big-font">{0}</p>'.format(title_str), unsafe_allow_html=True)
-                st.markdown('<p class="big-font">Affiliate Anti-Aging Company Name:{0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
+                st.markdown('<p class="medium-font">Affiliate Anti-Aging Company Name: {0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
                 
                 st.write(
                         f"""
@@ -243,7 +251,7 @@ def main():
                    
                     title_str = f.iloc[0].title
                     st.markdown('<p class="big-font">{0}</p>'.format(title_str), unsafe_allow_html=True)
-                    st.markdown('<p class="big-font">Affiliate Anti-Aging Company Name:{0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
+                    st.markdown('<p class="medium-font">Affiliate Anti-Aging Company Name: {0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
                 
 
                     st.write(
