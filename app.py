@@ -33,6 +33,7 @@ def read_data(data="data/publications/final_database_of_papers.csv"):
         data = pd.read_csv(data,index_col=0)
         #for some reason keyword lists are getting converted into strings - I have to stop storing data as csv 
         data['keywords'] = data['keywords'].apply(lambda x: literal_eval(x) if "[" in x else x)
+        df_copy['keywords'] = df_copy['keywords'].apply(lambda x: 'Nothing here' if x == [] else x)
         # datetime conversation for display
         data['publication_date'] = pd.to_datetime(data['publication_date'])
         data['publication_date'] = data['publication_date'].dt.date
@@ -47,8 +48,8 @@ def read_data(data="data/publications/final_database_of_papers.csv"):
 def find_indexes_of_matching_keywords(list_of_keywords,df,column):
     """" function that takes in a input list of strings, a dataframe and a column containing 
     lists as input and returns indexes of rows that match elements in the input list with 
-    elements in lists in the column"""
-    """match a string.
+    elements in lists in the column
+    match a string.
     :parameter
         :param column: string - name of column containing lists of text to match
         :param list_of_keywords: list - list of keywords to match
@@ -193,15 +194,15 @@ def main():
         st.caption("""The data about the companies is taken from [this](https://agingbiotech.info/companies) maintained by investor and creator Karl Pfleger.""")
 
         # User search
-        user_input = st.text_area("Search box-be elaborate", "stem cell research")
+        user_input = st.sidebar.text_area("Search box- (experimental, try to elaborate)", "stem cell research")
         # Keyword search
-        keyword_list = st.multiselect('Select Keywords (Preffered, concise)',list_combined_keywords_final, random_list(list_combined_keywords_final,5)) #get dropdown of keywords
+        keyword_list = st.sidebar.multiselect('Select Keywords (preffered, choose multiple)',list_combined_keywords_final, random_list(list_combined_keywords_final,5)) #get dropdown of keywords
 
         # Filters
         st.sidebar.markdown("**Filters**")
         #filter by keywords, company and seed terms (stem cell, aging, etc) within th abstract and title
         #display the number of results, authors, companies, journals, keywords
-        filter_company = st.sidebar.multiselect('Select Company or Companies (optional)',comapny_list, 'Altos labs') #get dropdown of companies
+        filter_company = st.sidebar.multiselect('Select a Company or Companies (optional)',comapny_list, 'Altos labs') #get dropdown of companies
         num_results = st.sidebar.slider("Number of search results", 5, 50, 5)
 
         # Fetch results
