@@ -25,6 +25,15 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 @st.cache(allow_output_mutation=True)
+def change_empty_lists_to_string(df,column):
+    """  change empty double lists in a column to 'Nothing here' """ 
+    df_copy = df.copy(deep=True)
+    for i in range(len(df_copy[column])):
+        if df_copy[column][i] == ['[]']:
+            df_copy[column][i] = 'Nothing here'
+    return df_copy
+
+@st.cache(allow_output_mutation=True)
 def read_data(data="data/publications/final_database_of_papers.csv"):
     """Read and process the data from local to avoid errors 
     ['company_name', 'article_id', 'title', 'keywords', 'publication_date',
@@ -33,7 +42,7 @@ def read_data(data="data/publications/final_database_of_papers.csv"):
         data = pd.read_csv(data,index_col=0)
         #for some reason keyword lists are getting converted into strings - I have to stop storing data as csv 
         data['keywords'] = data['keywords'].apply(lambda x: literal_eval(x) if "[" in x else x)
-        df_copy['keywords'] = df_copy['keywords'].apply(lambda x: 'Nothing here' if x == [] else x)
+        data = change_empty_lists_to_string(data,'keywords') #sorry next data version update will fix this
         # datetime conversation for display
         data['publication_date'] = pd.to_datetime(data['publication_date'])
         data['publication_date'] = data['publication_date'].dt.date
@@ -173,6 +182,14 @@ def id2details(df, I, column):
     """Returns the paper titles based on the paper index."""
     return [list(df[df.id == idx][column]) for idx in I[0]]
 
+@st.cache(allow_output_mutation=True)
+def frame_builder(data):
+    #must contain ['company_name', 'article_id', 'title', 'keywords', 'publication_date'] as column names
+    frame = data[data['company_name'].isin(filter_company)]
+    index, matched_words = find_indexes_of_matching_keywords(keyword_list,data,'keywords')
+    frame = display_dataframe_withindex(data,index)
+    return frame, index, matched_words
+
 def main():
     try:
     
@@ -213,9 +230,14 @@ def main():
             try:
                 if filter_company:
                     frame = data[data['company_name'].isin(filter_company)]
+                    if keyword_list:
+                        index, matched_words = find_indexes_of_matching_keywords(keyword_list,frame,'keywords')
+                        frame = display_dataframe_withindex(frame,index)
+                    else:
+                        pass
                 else:
-                    index, matched_words = find_indexes_of_matching_keywords(keyword_list,data,'keywords')
-                    frame = display_dataframe_withindex(data,index)
+                    frame = data
+
             except:
                 pass #see if this works if you have multiple companies
             # Get individual results
