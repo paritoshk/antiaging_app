@@ -1,0 +1,14 @@
+{
+    "AWSEBDockerrunVersion": "3",
+    "Image": {
+      "Name": "paritoshkulk/antiagingapp_v2",
+      "Update": "true"
+    },
+    "Ports": [
+      {
+        "ContainerPort": 8501,
+        "HostPort": 8501
+      }
+    ],
+    "Logging": "/var/log/nginx"
+  }
