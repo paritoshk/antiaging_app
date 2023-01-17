@@ -7,6 +7,5 @@ textColor = "#DCDCDC"
 font = "sans-serif"
 [server]
 port = 8501
-enableCORS=false
 [browser]
 serverAddress = "0.0.0.0"
