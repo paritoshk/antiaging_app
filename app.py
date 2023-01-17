@@ -258,7 +258,7 @@ def main():
                     frame = data
 
             except:
-                st.write('**Sorry! We are working on replying to that query**') #see if this works if you have multiple companies
+                pass #see if this works if you have multiple companies
             # Get individual results
             for id_ in I.flatten().tolist():
                 if id_ in set(frame.article_id):
