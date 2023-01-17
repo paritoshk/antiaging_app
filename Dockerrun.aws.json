@@ -10,5 +10,7 @@
         "HostPort": 8501
       }
     ],
-    "Logging": "/var/log/nginx"
+    "Logging": "/var/log/nginx",
+    "Entrypoint": "/app/bin/app.py",
+    "Command": "--argument"
   }
