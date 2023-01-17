@@ -222,7 +222,7 @@ def main():
         st.title("🧬 Longevity-AI 🧪")
         st.header("👨‍🔬: Hi! I am  your due diligence associate.")
         st.write("🤖: Ask me about the :blue[anti-aging] industry. Please try to be specific and elaborate. I am still learning.")
-        user_input = st.text_area("Shoot it here. Pardon me if I say nothing - :", "Tell me about research in methylation using stem cells in mouse models")
+        user_input = st.text_area("Type below. I will try to be accurate. Pardon me if I reply nothing.", "Tell me about research in methylation using stem cells in mouse models")
         st.caption('Try these - 1) tell me how red meat affects cancer 2) show me research about how lung fibrosis occurs. etc')
         st.write(" 💊 This does a semantic search over abstracts within :blue[anti-aging] & longevity industry and research*")
         # Sidebar 
@@ -258,7 +258,7 @@ def main():
                     frame = data
 
             except:
-                st.write('We are working on replying to that query') #see if this works if you have multiple companies
+                st.write('**Sorry! We are working on replying to that query**') #see if this works if you have multiple companies
             # Get individual results
             for id_ in I.flatten().tolist():
                 if id_ in set(frame.article_id):
@@ -306,7 +306,7 @@ def main():
                     """
                     )
             except:
-                st.write('We are working on replying to that query') #see if this works if you have multiple companies
+                st.write('**Sorry! We are working on replying to that query**') #see if this works if you have multiple companies
         st.caption("""There are over _3000_ abstracts in the database taken from PubMed. All publications are from _2018_ onwards.
                    These are compiled from 97 operating companies in the :blue[anti-aging] space, funded over $10B, including Altos Labs, Unity Biotechnology, Insilico Medicine, and many more.""")
         st.caption("""The data about the companies is taken from [this](https://agingbiotech.info/companies) maintained by investor and creator Karl Pfleger.""")
@@ -314,7 +314,7 @@ def main():
         st.caption("**Keyword feature may contain duplicates and is in beta mode. *Search results may not reflect all information available in the PubMed database, please search the title or DOI to get more information.")
     except Exception as e:
         st.write(e)
-
+        st.write('**Sorry! We are working on imrpoving the app.**')
 
 if __name__ == "__main__":
     main()
