@@ -6,7 +6,7 @@ secondaryBackgroundColor = "#0083B8"
 textColor = "#DCDCDC"
 font = "sans-serif"
 [server]
-port = 80
+port = 8501
 enableCORS=false
 [browser]
 serverAddress = "0.0.0.0"
