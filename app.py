@@ -7,7 +7,7 @@ import numpy as np
 import regex as re
 import random
 from ast import literal_eval
-st.set_page_config(layout="wide",page_title='Longevity AI', page_icon = "female-scientist", initial_sidebar_state = 'auto')
+st.set_page_config(layout="wide",page_title='Longevity AI', page_icon = "female_scientist", initial_sidebar_state = 'auto')
 #author: @parikul
 #display authors from paper database
 #display keyword and authors for dropdown 
