@@ -7,7 +7,7 @@ import numpy as np
 import regex as re
 import random
 from ast import literal_eval
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide",page_title='Longevity AI', page_icon = "🧬+🤖=👨‍🔬", initial_sidebar_state = 'auto')
 #author: @parikul
 #display authors from paper database
 #display keyword and authors for dropdown 
@@ -207,7 +207,7 @@ def main():
         faiss_index = load_faiss_index()
         embeddings = load_embeddings()
         instructions = """
-        \n 1. Enter a search term in the search box. Leaving the box empty and pressing (CTRL/CMD + ENTER) will show all publications. This is a free text semantic search and will return results based on the context, meaning and the concept.
+        \n 1. Enter a search term in the search box. Leaving the box empty and pressing (CTRL/CMD + ENTER) will show all publications. This is a free text semantic search and will return results based on context, meaning and concept.
         \n 2. Select keywords from the dropdown. The keyword search is a soft match. Free text has precedence over keywords.
         \n 3. Select a company or companies from the dropdown. This will filter the results to strictly show results from the selected company.
         \n 4. Select the number of results you want to see. The default is 5."""
