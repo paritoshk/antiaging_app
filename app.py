@@ -7,7 +7,7 @@ import numpy as np
 import regex as re
 import random
 from ast import literal_eval
-st.set_page_config(layout="wide",page_title='Longevity AI', page_icon = "female_scientist", initial_sidebar_state = 'auto')
+st.set_page_config(layout="wide",page_title='Longevity AI', page_icon = '🤖', initial_sidebar_state = 'auto')
 #author: @parikul
 #display authors from paper database
 #display keyword and authors for dropdown 
@@ -191,7 +191,7 @@ def id2details(df, I, column):
     return [list(df[df.id == idx][column]) for idx in I[0]]
 
 @st.cache(allow_output_mutation=True)
-def frame_builder(data):
+def frame_builder(data,filter_company,keyword_list):
     #must contain ['company_name', 'article_id', 'title', 'keywords', 'publication_date'] as column names
     frame = data[data['company_name'].isin(filter_company)]
     index, matched_words = find_indexes_of_matching_keywords(keyword_list,data,'keywords')
