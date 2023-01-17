@@ -7,7 +7,8 @@ import numpy as np
 import regex as re
 import random
 from ast import literal_eval
-#author: @parkul
+
+#author: @parikul
 #display authors from paper database
 #display keyword and authors for dropdown 
 #add wordcloud barplot and gpt2 sumamry of what each company is working on and in what topic model
@@ -17,9 +18,15 @@ st.markdown("""
 <style>
 .big-font {
     font-size:30px !important;
+    color:orange;
 }
 .medium-font {
     font-size:20px;
+    color:skyblue;
+}
+.small-font {
+    font-size:15px;
+    color:grey;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -89,6 +96,7 @@ def display_dataframe_withindex(df,indexes):
 @st.cache(allow_output_mutation=True)
 def random_list(list,n):
     """ function that creates a random list of n elements from a long list"""
+    random.seed(42) 
     random_list = []
     for i in range(n):
         random_list.append(random.choice(list))
@@ -198,30 +206,43 @@ def main():
         model = load_bert_model()
         faiss_index = load_faiss_index()
         embeddings = load_embeddings()
+        instructions = """
+        \n 1. Enter a search term in the search box. This is a free text semantic search and will return results based on the context, meaning and the concept.
+        \n 2. Select keywords from the dropdown. The keyword search is a soft match. Free text has precedence over keywords.
+        \n 3. Select a company or companies from the dropdown. This will filter the results to strictly show results from the selected company.
+        \n 4. Select the number of results you want to see. The default is 5."""
         newline= '\n'
         # important columns - company_name, article_id, title, keywords, publication_date, abstract, journal, doi, authors
         # variables - user_input, filter_company, num_results
         comapny_list = list(set(data['company_name'].to_list()))
         list_combined_keywords = combine_list_column(data,'keywords')
         list_combined_keywords_final =(convert_list_of_strings_to_list(list_combined_keywords))
-
-        st.title("🧬 Semantic Search over PubMed abstracts curated within :blue[anti-aging] industry and research👨‍🔬⚗️🧪💊*")
+        # duplicate keywords are found - use set to remove duplicates - like blood,
+        #"""This application attempts to automate searching thousands of abstracts focused on 97 selected for-profit published by companies focusing on anti-aging and longevity. These are funded over $10B."""
+        st.title("🧬Longevity-AI🧪")
+        st.subheader("👨‍🔬 - Hi! I am  your due diligence associate. Ask me anything about the :blue[anti-aging] industry.")
+        user_input = st.text_area("Experimental text box - (try to be elaborate)", "Tell me about research in methylation using stem cells in mouse models")
+        st.write("💊Semantic Search over PubMed abstracts curated within :blue[anti-aging] & longevity industry and research*")
         st.caption("""There are over _3000_ abstracts in the database taken from PubMed. All publications are from _2018_ onwards.
-                   These are compiled from 97 operating companies in the :blue[anti-aging] space, inlcuding Altos Labs, Unity Biotechnology, Insilico Medicine, and many more.""")
+                   These are compiled from 97 operating companies in the :blue[anti-aging] space, funded over $10B, inlcuding Altos Labs, Unity Biotechnology, Insilico Medicine, and many more.""")
         st.caption("""The data about the companies is taken from [this](https://agingbiotech.info/companies) maintained by investor and creator Karl Pfleger.""")
 
-        # User search
-        user_input = st.sidebar.text_area("Search box- (experimental, try to elaborate)", "stem cell research")
-        # Keyword search
-        keyword_list = st.sidebar.multiselect('Select Keywords (preffered, choose multiple)',list_combined_keywords_final, random_list(list_combined_keywords_final,5)) #get dropdown of keywords
-
+        # Sidebar 
         # Filters
         st.sidebar.markdown("**Filters**")
+        # User search
+        
+        # Keyword search
+        keyword_list = st.sidebar.multiselect('Select Keywords (**beta feature, choose multiple)',list_combined_keywords_final, ['x-ray crystallography','gfat2','haploid mouse embryonic stem cells']) #get dropdown of keywords     
         #filter by keywords, company and seed terms (stem cell, aging, etc) within th abstract and title
         #display the number of results, authors, companies, journals, keywords
-        filter_company = st.sidebar.multiselect('Select a Company or Companies (optional)',comapny_list, 'Altos labs') #get dropdown of companies
-        num_results = st.sidebar.slider("Number of search results", 5, 50, 5)
-
+        filter_company = st.sidebar.multiselect('Select a Company or Companies',comapny_list, "Altos labs") #get dropdown of companies
+        num_results = st.sidebar.slider("Number of search results", 5,20, 5)
+        # Instructions
+        
+        st.sidebar.markdown("**Instructions**")
+        st.sidebar.markdown('<p class="small-font">{0}</p>'.format(instructions), unsafe_allow_html=True)
+        st.sidebar.markdown("*If no results appear - try broadening your criteria, keywords or deslecting your filters*")
         # Fetch results
         if user_input:
             # Get paper IDs
@@ -274,7 +295,7 @@ def main():
                    
                     title_str = f.iloc[0].title
                     st.markdown('<p class="big-font">{0}</p>'.format(title_str), unsafe_allow_html=True)
-                    st.markdown('<p class="medium-font">Affiliate Anti-Aging Company Name: {0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
+                    st.markdown('<p class="medium-font"Affiliate Anti-Aging Company Name: {0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
                 
 
                     st.write(
@@ -288,7 +309,7 @@ def main():
                     )
             except:
                 pass #see if this works if you have multiple companies
-        st.write("*Search results may not reflect all information available in the PubMed database, please search the title or DOI to get more information.")
+        st.caption("**Keyword feature may contain duplicates and is in beta mode. *Search results may not reflect all information available in the PubMed database, please search the title or DOI to get more information.")
     except Exception as e:
         st.write(e)
 

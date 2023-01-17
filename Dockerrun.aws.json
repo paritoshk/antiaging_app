@@ -1,5 +1,5 @@
 {
-    "AWSEBDockerrunVersion": "3",
+    "AWSEBDockerrunVersion": "1",
     "Image": {
       "Name": "paritoshkulk/antiagingapp_v2",
       "Update": "true"
