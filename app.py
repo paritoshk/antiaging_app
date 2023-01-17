@@ -7,7 +7,7 @@ import numpy as np
 import regex as re
 import random
 from ast import literal_eval
-
+st.set_page_config(layout="wide")
 #author: @parikul
 #display authors from paper database
 #display keyword and authors for dropdown 
@@ -191,7 +191,7 @@ def id2details(df, I, column):
     return [list(df[df.id == idx][column]) for idx in I[0]]
 
 @st.cache(allow_output_mutation=True)
-def frame_builder(data,filter_company,keyword_list):
+def frame_builder(data):
     #must contain ['company_name', 'article_id', 'title', 'keywords', 'publication_date'] as column names
     frame = data[data['company_name'].isin(filter_company)]
     index, matched_words = find_indexes_of_matching_keywords(keyword_list,data,'keywords')
@@ -207,7 +207,7 @@ def main():
         faiss_index = load_faiss_index()
         embeddings = load_embeddings()
         instructions = """
-        \n 1. Enter a search term in the search box. This is a free text semantic search and will return results based on the context, meaning and the concept.
+        \n 1. Enter a search term in the search box. Leaving the box empty and pressing (CTRL/CMD + ENTER) will show all publications. This is a free text semantic search and will return results based on the context, meaning and the concept.
         \n 2. Select keywords from the dropdown. The keyword search is a soft match. Free text has precedence over keywords.
         \n 3. Select a company or companies from the dropdown. This will filter the results to strictly show results from the selected company.
         \n 4. Select the number of results you want to see. The default is 5."""
@@ -216,17 +216,15 @@ def main():
         # variables - user_input, filter_company, num_results
         comapny_list = list(set(data['company_name'].to_list()))
         list_combined_keywords = combine_list_column(data,'keywords')
-        list_combined_keywords_final =(convert_list_of_strings_to_list(list_combined_keywords))
+        list_combined_keywords_final = set(convert_list_of_strings_to_list(list_combined_keywords))
         # duplicate keywords are found - use set to remove duplicates - like blood,
         #"""This application attempts to automate searching thousands of abstracts focused on 97 selected for-profit published by companies focusing on anti-aging and longevity. These are funded over $10B."""
-        st.title("🧬Longevity-AI🧪")
-        st.subheader("👨‍🔬 - Hi! I am  your due diligence associate. Ask me anything about the :blue[anti-aging] industry.")
+        st.title("🧬 Longevity-AI 🧪")
+        st.header("👨‍🔬: Hi! I am  your due diligence associate.")
+        st.write("🤖: Ask me about the :blue[anti-aging] industry. Please try to be specific and elaborate. I am still learning.")
         user_input = st.text_area("Experimental text box - (try to be elaborate)", "Tell me about research in methylation using stem cells in mouse models")
-        st.write("💊Semantic Search over PubMed abstracts curated within :blue[anti-aging] & longevity industry and research*")
-        st.caption("""There are over _3000_ abstracts in the database taken from PubMed. All publications are from _2018_ onwards.
-                   These are compiled from 97 operating companies in the :blue[anti-aging] space, funded over $10B, inlcuding Altos Labs, Unity Biotechnology, Insilico Medicine, and many more.""")
-        st.caption("""The data about the companies is taken from [this](https://agingbiotech.info/companies) maintained by investor and creator Karl Pfleger.""")
-
+        st.caption('Try these - 1) tell me how red meat affects cancer 2) show me research about how lung fibrosis occurs. etc')
+        st.write(" 💊 This does a semantic search over abstracts within :blue[anti-aging] & longevity industry and research*")
         # Sidebar 
         # Filters
         st.sidebar.markdown("**Filters**")
@@ -295,7 +293,7 @@ def main():
                    
                     title_str = f.iloc[0].title
                     st.markdown('<p class="big-font">{0}</p>'.format(title_str), unsafe_allow_html=True)
-                    st.markdown('<p class="medium-font"Affiliate Anti-Aging Company Name: {0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
+                    st.markdown('<p class="medium-font">Affiliate Anti-Aging Company Name: {0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
                 
 
                     st.write(
@@ -309,6 +307,10 @@ def main():
                     )
             except:
                 pass #see if this works if you have multiple companies
+        st.caption("""There are over _3000_ abstracts in the database taken from PubMed. All publications are from _2018_ onwards.
+                   These are compiled from 97 operating companies in the :blue[anti-aging] space, funded over $10B, including Altos Labs, Unity Biotechnology, Insilico Medicine, and many more.""")
+        st.caption("""The data about the companies is taken from [this](https://agingbiotech.info/companies) maintained by investor and creator Karl Pfleger.""")
+
         st.caption("**Keyword feature may contain duplicates and is in beta mode. *Search results may not reflect all information available in the PubMed database, please search the title or DOI to get more information.")
     except Exception as e:
         st.write(e)
