@@ -6,6 +6,8 @@ from sentence_transformers import SentenceTransformer
 import numpy as np
 import regex as re
 import random
+from collections import Counter
+import seaborn as sns
 from ast import literal_eval
 st.set_page_config(layout="wide",page_title='Longevity AI', page_icon = '🤖', initial_sidebar_state = 'auto')
 #author: @parikul
@@ -198,6 +200,17 @@ def frame_builder(data,filter_company,keyword_list):
     frame = display_dataframe_withindex(data,index)
     return frame, index, matched_words
 
+@st.cache(allow_output_mutation=True)
+def make_barplot(pdframe,column):
+    pdframe = pd.DataFrame.from_dict(
+        Counter(pdframe[column]), orient='index').reset_index()
+    pdframe = pdframe.rename(columns = {'index': column,0:'Frequency'})
+    pdframe = pdframe.dropna(axis=0)
+    pdframe= pdframe.sort_values(by = ['Frequency'],ascending=False)
+    sns.set_theme(style="whitegrid")
+    ax = sns.barplot(x="Frequency", y=column, data=pdframe.head(10))
+    return ax
+
 def main():
     try:
     
@@ -279,7 +292,8 @@ def main():
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
-        else:
+            st.write(make_barplot(frame, 'company_name'))
+            st.write(make_barplot(frame, 'journal'))
             try:
                 if filter_company:
                     frame = data[data['company_name'].isin(filter_company)]
@@ -305,6 +319,9 @@ def main():
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
+                st.write(make_barplot(frame, 'company_name'))
+                st.write(make_barplot(frame, 'journal'))
+            
             except:
                 st.write('**Sorry! We are working on replying to that query**') #see if this works if you have multiple companies
         st.caption("""There are over _3000_ abstracts in the database taken from PubMed. All publications are from _2018_ onwards.
