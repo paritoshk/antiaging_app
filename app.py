@@ -313,7 +313,9 @@ def main():
                 st.subheader("Here are the summary barplots to describe the results")
                 company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
                 journal_df = frame['journal'].value_counts().rename_axis('unique_values')
+                st.subheader("1. Number of papers per company")
                 st.bar_chart(company_namedf.head(10))
+                st.subheader("2. Number of papers per jounral")
                 st.bar_chart(journal_df.head(10))
             
                 for id_ in set(frame.article_id):
