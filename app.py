@@ -273,8 +273,8 @@ def main():
             except:
                 pass #see if this works if you have multiple companies
             # Get individual results
-            company_namedf = frame['company_name'].value_counts().rename_axis('unique_values').reset_index(name='counts')
-            journal_df = frame['journal'].value_counts().rename_axis('unique_values').reset_index(name='counts')
+            company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
+            journal_df = frame['journal'].value_counts().rename_axis('unique_values')
             st.bar_chart(company_namedf.head(10))
             st.bar_chart(journal_df.head(10))
             for id_ in I.flatten().tolist():
@@ -304,8 +304,8 @@ def main():
                 else:
                     index, matched_words = find_indexes_of_matching_keywords(keyword_list,data,'keywords')
                     frame = display_dataframe_withindex(data,index)
-                company_namedf = frame['company_name'].value_counts().rename_axis('unique_values').reset_index(name='counts')
-                journal_df = frame['journal'].value_counts().rename_axis('unique_values').reset_index(name='counts')
+                company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
+                journal_df = frame['journal'].value_counts().rename_axis('unique_values')
                 st.bar_chart(company_namedf.head(10))
                 st.bar_chart(journal_df.head(10))
             
