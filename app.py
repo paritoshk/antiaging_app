@@ -235,9 +235,10 @@ def main():
         st.title("🧬 Longevity-AI 🧪")
         st.header("👨‍🔬: Hi! I am  your due diligence associate.")
         st.write("🤖: Ask me about the :blue[anti-aging] industry. Please try to be specific and elaborate. I am still learning.")
+        st.write(" 💊 This does a semantic search over abstracts within :blue[anti-aging] & longevity industry and research*")
         user_input = st.text_area("Type below. I will try to be accurate. Pardon me if I reply nothing.", "Tell me about research in methylation using stem cells in mouse models")
         st.caption('Try these - 1) tell me how red meat affects cancer 2) show me research about how lung fibrosis occurs. etc')
-        st.write(" 💊 This does a semantic search over abstracts within :blue[anti-aging] & longevity industry and research*")
+        
         # Sidebar 
         # Filters
         st.sidebar.markdown("**Filters**")
