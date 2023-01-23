@@ -294,8 +294,8 @@ def main():
                     )
             company_namedf = frame['company_name'].value_counts().rename_axis('unique_values').reset_index(name='counts')
             journal_df = frame['journal'].value_counts().rename_axis('unique_values').reset_index(name='counts')
-            st.bar_chart(company_namedf)
-            st.bar_chart(journal_df)
+            st.bar_chart(company_namedf.head(10))
+            st.bar_chart(journal_df.head(10))
 
             try:
                 if filter_company:
@@ -324,8 +324,8 @@ def main():
                     )
                 company_namedf = frame['company_name'].value_counts().rename_axis('unique_values').reset_index(name='counts')
                 journal_df = frame['journal'].value_counts().rename_axis('unique_values').reset_index(name='counts')
-                st.bar_chart(company_namedf)
-                st.bar_chart(journal_df)
+                st.bar_chart(company_namedf.head(10))
+                st.bar_chart(journal_df.head(10))
 
             
             except:
