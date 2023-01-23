@@ -273,6 +273,7 @@ def main():
             except:
                 pass #see if this works if you have multiple companies
             # Get individual results
+            st.subheader("Here are the summary barplots to describe the results")
             company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
             journal_df = frame['journal'].value_counts().rename_axis('unique_values')
             st.bar_chart(company_namedf.head(10))
@@ -304,6 +305,7 @@ def main():
                 else:
                     index, matched_words = find_indexes_of_matching_keywords(keyword_list,data,'keywords')
                     frame = display_dataframe_withindex(data,index)
+                st.subheader("Here are the summary barplots to describe the results")
                 company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
                 journal_df = frame['journal'].value_counts().rename_axis('unique_values')
                 st.bar_chart(company_namedf.head(10))
