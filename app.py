@@ -200,17 +200,6 @@ def frame_builder(data,filter_company,keyword_list):
     frame = display_dataframe_withindex(data,index)
     return frame, index, matched_words
 
-@st.cache(allow_output_mutation=True)
-def make_barplot(pdframe,column):
-    pdframe = pd.DataFrame.from_dict(
-        Counter(pdframe[column]), orient='index').reset_index()
-    pdframe = pdframe.rename(columns = {'index': column,0:'Frequency'})
-    pdframe = pdframe.dropna(axis=0)
-    pdframe= pdframe.sort_values(by = ['Frequency'],ascending=False)
-    sns.set_theme(style="whitegrid")
-    ax = sns.barplot(x="Frequency", y=column, data=pdframe.head(10))
-    return ax
-
 def main():
     try:
     
@@ -275,13 +264,13 @@ def main():
                 pass #see if this works if you have multiple companies
             # Get individual results
             # summary barplots
-            st.header("Summary barplots: result description")
+            st.header("Summary barplots: result description - top 10 reuslts")
             company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
             journal_df = frame['journal'].value_counts().rename_axis('unique_values')
             st.subheader("1. Number of papers per company")
-            st.bar_chart(company_namedf.head(10))
+            st.bar_chart(company_namedf.T.head(10))
             st.subheader("2. Number of papers per jounral")
-            st.bar_chart(journal_df.head(10))
+            st.bar_chart(journal_df.T.head(10))
             
             for id_ in I.flatten().tolist():
                 if id_ in set(frame.article_id):
@@ -310,14 +299,15 @@ def main():
                 else:
                     index, matched_words = find_indexes_of_matching_keywords(keyword_list,data,'keywords')
                     frame = display_dataframe_withindex(data,index)
-                st.subheader("Here are the summary barplots to describe the results")
+                # summary barplots
+                st.header("Summary barplots: result description - top 10 results")
                 company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
                 journal_df = frame['journal'].value_counts().rename_axis('unique_values')
                 st.subheader("1. Number of papers per company")
-                st.bar_chart(company_namedf.head(10))
+                st.bar_chart(company_namedf.T.head(10))
                 st.subheader("2. Number of papers per jounral")
-                st.bar_chart(journal_df.head(10))
-            
+                st.bar_chart(journal_df.T.head(10))
+
                 for id_ in set(frame.article_id):
                     f = frame[(frame.article_id == id_)]
 
