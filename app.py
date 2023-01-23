@@ -292,10 +292,10 @@ def main():
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
-                company_namedf = frame['company_name'].value_counts().rename_axis('unique_values').reset_index(name='counts')
-                journal_df = frame['journal'].value_counts().rename_axis('unique_values').reset_index(name='counts')
-                st.bar_chart(company_namedf)
-                st.bar_chart(journal_df)
+            company_namedf = frame['company_name'].value_counts().rename_axis('unique_values').reset_index(name='counts')
+            journal_df = frame['journal'].value_counts().rename_axis('unique_values').reset_index(name='counts')
+            st.bar_chart(company_namedf)
+            st.bar_chart(journal_df)
 
             try:
                 if filter_company:
