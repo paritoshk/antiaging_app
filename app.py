@@ -292,8 +292,8 @@ def main():
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
-            st.write(make_barplot(frame, 'company_name'))
-            st.write(make_barplot(frame, 'journal'))
+            st.pyplot(make_barplot(frame, 'company_name'))
+            st.pyplot(make_barplot(frame, 'journal'))
             try:
                 if filter_company:
                     frame = data[data['company_name'].isin(filter_company)]
@@ -319,8 +319,8 @@ def main():
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
-                st.write(make_barplot(frame, 'company_name'))
-                st.write(make_barplot(frame, 'journal'))
+                st.pyplot(make_barplot(frame, 'company_name'))
+                st.pyplot(make_barplot(frame, 'journal'))
             
             except:
                 st.write('**Sorry! We are working on replying to that query**') #see if this works if you have multiple companies
