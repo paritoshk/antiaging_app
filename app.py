@@ -273,11 +273,15 @@ def main():
             except:
                 pass #see if this works if you have multiple companies
             # Get individual results
-            st.subheader("Here are the summary barplots to describe the results")
+            # summary barplots
+            st.header("Summary barplots: result description")
             company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
             journal_df = frame['journal'].value_counts().rename_axis('unique_values')
+            st.subheader("1. Number of papers per company")
             st.bar_chart(company_namedf.head(10))
+            st.subheader("2. Number of papers per jounral")
             st.bar_chart(journal_df.head(10))
+            
             for id_ in I.flatten().tolist():
                 if id_ in set(frame.article_id):
                     f = frame[(frame.article_id == id_)]
