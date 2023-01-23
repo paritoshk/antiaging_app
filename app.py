@@ -292,8 +292,11 @@ def main():
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
-            make_barplot(frame, 'company_name')
-            make_barplot(frame, 'journal')
+                company_namedf = frame['company_name'].value_counts().rename_axis('unique_values').reset_index(name='counts')
+                journal_df = frame['journal'].value_counts().rename_axis('unique_values').reset_index(name='counts')
+                st.bar_chart(company_namedf)
+                st.bar_chart(journal_df)
+
             try:
                 if filter_company:
                     frame = data[data['company_name'].isin(filter_company)]
@@ -319,8 +322,11 @@ def main():
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
-                make_barplot(frame, 'company_name')
-                make_barplot(frame, 'journal')
+                company_namedf = frame['company_name'].value_counts().rename_axis('unique_values').reset_index(name='counts')
+                journal_df = frame['journal'].value_counts().rename_axis('unique_values').reset_index(name='counts')
+                st.bar_chart(company_namedf)
+                st.bar_chart(journal_df)
+
             
             except:
                 st.write('**Sorry! We are working on replying to that query**') #see if this works if you have multiple companies
