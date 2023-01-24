@@ -364,7 +364,7 @@ def main():
                     with st.expander("Show ONLY affiliations working in the company"):
                             index = highlight_company_auths(f.iloc[0].company_name,author_frame)
                             frame_sample = (author_frame.iloc[index]).reset_index(drop=True)
-                            st.dataframe(frame_sample.style.apply(lambda x: ["background: yellow"])))
+                            st.dataframe(frame_sample.style.apply(lambda x: ["background: yellow"]))
 
 
             
