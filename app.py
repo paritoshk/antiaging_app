@@ -193,6 +193,7 @@ def main():
         model = load_bert_model()
         faiss_index = load_faiss_index()
         list_combined_keywords = load_keywords()
+        authors_data = authors_data()
         instructions = """
         \n 1. Enter a search term in the search box. Leaving the box empty and pressing (CTRL/CMD + ENTER) will show all publications. This is a free text semantic search and will return results based on context, meaning and concept.
         \n 2. Select keywords from the dropdown. The keyword search is a soft match. Free text has precedence over keywords.
@@ -230,6 +231,10 @@ def main():
         st.sidebar.markdown("*If no results appear - try broadening your criteria, keywords or deslecting your filters*")
         st.sidebar.write("**Stats**")
         st.sidebar.write("Total number of publications: ", len(data))
+        st.sidebar.write("Total number of companies: ", len(comapny_list))
+        st.sidebar.write("Total number of keywords: ", len(list_combined_keywords))
+        st.sidebar.write("Total number of journals: ", len(set(data['journal'].to_list())))
+        
         
         
         # Fetch results
@@ -292,8 +297,6 @@ def main():
 
                 for id_ in set(frame.article_id):
                     f = frame[(frame.article_id == id_)]
-
-                   
                     title_str = f.iloc[0].title
                     st.markdown('<p class="big-font">{0}</p>'.format(title_str), unsafe_allow_html=True)
                     st.markdown('<p class="medium-font">Affiliate Anti-Aging Company Name: {0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
