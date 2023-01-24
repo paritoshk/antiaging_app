@@ -43,12 +43,12 @@ def change_empty_lists_to_string(df,column):
     return df_copy
 
 @st.cache(allow_output_mutation=True)
-def read_data(data="data/publications/final_database_of_papers.csv"):
+def read_data(data="data/publications/final_database_of_papers.xlsx"):
     """Read and process the data from local to avoid errors 
     ['company_name', 'article_id', 'title', 'keywords', 'publication_date',
        'abstract', 'journal', 'doi'] are columns that are MUST in order to run the app"""
     try:
-        data = pd.read_csv(data,index_col=0)
+        data = pd.read_excel(data)
         #for some reason keyword lists are getting converted into strings - I have to stop storing data as csv 
         data['keywords'] = data['keywords'].apply(lambda x: literal_eval(x) if "[" in x else x)
         data = change_empty_lists_to_string(data,'keywords') #sorry next data version update will fix this
@@ -95,34 +95,7 @@ def display_dataframe_withindex(df,indexes):
     df_display = df.iloc[indexes]
     return df_display
 
-@st.cache(allow_output_mutation=True)
-def random_list(list,n):
-    """ function that creates a random list of n elements from a long list"""
-    random.seed(42) 
-    random_list = []
-    for i in range(n):
-        random_list.append(random.choice(list))
-    return random_list
 
-@st.cache(allow_output_mutation=True)
-def combine_list_column(df,column):
-    """ function that combines a column of lists in dataframe to a large list """
-    df_copy = df.copy(deep=True)
-    list_of_lists = df_copy[column].tolist()
-    list_of_lists = [item for sublist in list_of_lists for item in sublist]
-    return list(set(list_of_lists)) #drops duplicates
-
-
-@st.cache(allow_output_mutation=True)
-def convert_list_of_strings_to_list(list_words:list)->list:
-    """ function that converts a list of strings sperated by comma into a list each strings"""
-    list_output = []
-    for text in list_words:
-        text = text.split(',')
-        for word in text:
-            word = word.strip()
-            list_output.append(word)
-    return list_output
 
 @st.cache(allow_output_mutation=True)
 def authors_data(data="data/publications/authors_dataframe.csv"):
@@ -150,8 +123,15 @@ def get_author_affiliation(df:pd.DataFrame,company_name=None,id_the=31740545):
 
 @st.cache(allow_output_mutation=True)
 def load_bert_model():
-    """Instantiate a sentence-level allenai-specer model."""
+    """Instantiate a sentence-level model."""
     return SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+
+@st.cache(allow_output_mutation=True)
+def load_keywords(path_to_keywords="pickle_files/keyword_final.pickle"):
+    """Load and deserialize the Faiss index."""
+    with open(path_to_keywords, "rb") as h:
+        keywords = pickle.load(h)
+    return keywords
 
 @st.cache(allow_output_mutation=True)
 def load_embeddings(path_to_embeddings="pickle_files/embeddings.pickle"):
@@ -207,7 +187,7 @@ def main():
         data = read_data()
         model = load_bert_model()
         faiss_index = load_faiss_index()
-        embeddings = load_embeddings()
+        list_combined_keywords = load_keywords()
         instructions = """
         \n 1. Enter a search term in the search box. Leaving the box empty and pressing (CTRL/CMD + ENTER) will show all publications. This is a free text semantic search and will return results based on context, meaning and concept.
         \n 2. Select keywords from the dropdown. The keyword search is a soft match. Free text has precedence over keywords.
@@ -217,8 +197,7 @@ def main():
         # important columns - company_name, article_id, title, keywords, publication_date, abstract, journal, doi, authors
         # variables - user_input, filter_company, num_results
         comapny_list = list(set(data['company_name'].to_list()))
-        list_combined_keywords = combine_list_column(data,'keywords')
-        list_combined_keywords_final = set(convert_list_of_strings_to_list(list_combined_keywords))
+        
         # duplicate keywords are found - use set to remove duplicates - like blood,
         #"""This application attempts to automate searching thousands of abstracts focused on 97 selected for-profit published by companies focusing on anti-aging and longevity. These are funded over $10B."""
         st.title("🧬 Longevity-AI 🧪")
@@ -234,7 +213,7 @@ def main():
         # User search
         
         # Keyword search
-        keyword_list = st.sidebar.multiselect('Select Keywords (**beta feature, choose multiple)',list_combined_keywords_final, ['x-ray crystallography','gfat2','haploid mouse embryonic stem cells']) #get dropdown of keywords     
+        keyword_list = st.sidebar.multiselect('Select Keywords (**beta feature, choose multiple)',list_combined_keywords, ['x-ray crystallography','gfat2','haploid mouse embryonic stem cells']) #get dropdown of keywords     
         #filter by keywords, company and seed terms (stem cell, aging, etc) within th abstract and title
         #display the number of results, authors, companies, journals, keywords
         filter_company = st.sidebar.multiselect('Select a Company or Companies',comapny_list, "Altos labs") #get dropdown of companies
@@ -244,6 +223,10 @@ def main():
         st.sidebar.markdown("**Instructions**")
         st.sidebar.markdown('<p class="small-font">{0}</p>'.format(instructions), unsafe_allow_html=True)
         st.sidebar.markdown("*If no results appear - try broadening your criteria, keywords or deslecting your filters*")
+        st.sidebar.write("**Stats**")
+        st.sidebar.write("Total number of publications: ", len(data))
+        
+        
         # Fetch results
         if user_input:
             # Get paper IDs
@@ -264,7 +247,7 @@ def main():
                 pass #see if this works if you have multiple companies
             # Get individual results
             # summary barplots
-            st.header("Summary barplots: result description - top 10 reuslts")
+            st.header("Summary plots, followed by results - top 10")
             company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
             journal_df = frame['journal'].value_counts().rename_axis('unique_values')
             st.subheader("1. Number of papers per company")
@@ -286,11 +269,13 @@ def main():
                         f"""
                     {newline}**Journal**: {f.iloc[0].journal}  
                     {newline}**Publication Date**: {f.iloc[0].publication_date}  
-                    {newline}**Keywords**: *{f.iloc[0].keywords}*
                     {newline}**DOI**: *{f.iloc[0].doi.split(newline)[0]}*
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
+                for i in f.iloc[0].keywords:
+                        st.markdown('<p class="medium-font">{0}</p>'.format(i), unsafe_allow_html=True)
+
 
 
             try:
@@ -299,14 +284,7 @@ def main():
                 else:
                     index, matched_words = find_indexes_of_matching_keywords(keyword_list,data,'keywords')
                     frame = display_dataframe_withindex(data,index)
-                # summary barplots
-                st.header("Summary barplots: result description - top 10 results")
-                company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
-                journal_df = frame['journal'].value_counts().rename_axis('unique_values')
-                st.subheader("1. Number of papers per company")
-                st.bar_chart(company_namedf.T.head(10))
-                st.subheader("2. Number of papers per jounral")
-                st.bar_chart(journal_df.T.head(10))
+
 
                 for id_ in set(frame.article_id):
                     f = frame[(frame.article_id == id_)]
@@ -320,12 +298,13 @@ def main():
                     st.write(
                         f"""
                     {newline}**Journal**: {f.iloc[0].journal}  
-                    {newline}**Publication Date**: {f.iloc[0].publication_date}  
-                    {newline}**Keywords**: *{f.iloc[0].keywords}*
+                    {newline}**Publication Date**: {f.iloc[0].publication_date} 
                     {newline}**DOI**: *{f.iloc[0].doi.split(newline)[0]}*
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
+                    for i in f.iloc[0].keywords:
+                        st.markdown('<p class="medium-font">{0}</p>'.format(i), unsafe_allow_html=True)
 
 
             
