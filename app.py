@@ -315,7 +315,11 @@ def main():
                 
                 # highlight author whose affliation is in the company list
                 with st.expander("Show information about authors and affiliations"):
-                        st.dataframe(author_frame.iloc[highlight_company_auths(f.iloc[0].company_name,author_frame)].style.apply(lambda x: ["background: yellow"]))
+                        st.dataframe(author_frame)
+                with st.expander("Show ONLY affiliations working in the company"):
+                    index = highlight_company_auths(f.iloc[0].company_name,author_frame)
+                    frame_sample = (author_frame.iloc[index]).reset_index(drop=True)
+                    st.dataframe(frame_sample.style.apply(lambda x: ["background: yellow"]))
                 
 
 
@@ -356,7 +360,11 @@ def main():
                     else:
                         st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
                     with st.expander("Show information about authors and affiliations"):
-                        st.dataframe(author_frame.iloc[highlight_company_auths(f.iloc[0].company_name,author_frame)].style.apply(lambda x: ["background: yellow"]))
+                            st.dataframe(author_frame)
+                    with st.expander("Show ONLY affiliations working in the company"):
+                            index = highlight_company_auths(f.iloc[0].company_name,author_frame)
+                            frame_sample = (author_frame.iloc[index]).reset_index(drop=True)
+                            st.dataframe(frame_sample.style.apply(lambda x: ["background: yellow"])))
 
 
             
