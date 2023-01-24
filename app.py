@@ -127,7 +127,7 @@ def get_author_affiliation(df:pd.DataFrame,company_name=None,id_the=31740545):
     return df_copy[['author_name', 'affiliation']], print_list
 
 @st.cache(allow_output_mutation=True)
-def highlight_company_auths(match_string:str,case_df:pd.DataFrame)->pd.DataFrame:
+def highlight_company_auths(match_string:str,case_df:pd.DataFrame)->list:
     
     """ function to highlight a string in a dataframe column
     must contain affiliation column
@@ -143,9 +143,8 @@ def highlight_company_auths(match_string:str,case_df:pd.DataFrame)->pd.DataFrame
                     match_index.append(i)
             else:
                 continue
-    df_copy = case_df.copy(deep=True)
-    df_copy.iloc[match_index] = df_copy.iloc[match_index].style.apply(lambda x: ["background: yellow"])
-    return df_copy
+    
+    return match_index
 
 @st.cache(allow_output_mutation=True)
 def load_bert_model():
@@ -316,7 +315,7 @@ def main():
                 
                 # highlight author whose affliation is in the company list
                 with st.expander("Show information about authors and affiliations"):
-                        st.dataframe(highlight_company_auths(f.iloc[0].company_name,author_frame))
+                        st.dataframe(author_frame.iloc[highlight_company_auths(f.iloc[0].company_name,author_frame)].style.apply(lambda x: ["background: yellow"]))
                 
 
 
@@ -357,7 +356,7 @@ def main():
                     else:
                         st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
                     with st.expander("Show information about authors and affiliations"):
-                        st.dataframe(highlight_company_auths(f.iloc[0].company_name,author_frame))
+                        st.dataframe(author_frame.iloc[highlight_company_auths(f.iloc[0].company_name,author_frame)].style.apply(lambda x: ["background: yellow"]))
 
 
             
