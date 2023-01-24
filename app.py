@@ -188,7 +188,17 @@ def main():
     try:
     
         # Load data and models
-        data = read_data()
+        path = 'data/publications/final_database_of_papers.xlsx'
+        data = pd.read_excel(path,index_col=0)
+        #for some reason keyword lists are getting converted into strings - I have to stop storing data as csv 
+        data['keywords'] = data['keywords'].apply(lambda x: literal_eval(x) if "[" in x else x)
+        data = change_empty_lists_to_string(data,'keywords') #sorry next data version update will fix this
+        # datetime conversation for display
+        data['publication_date'] = pd.to_datetime(data['publication_date'])
+        data['publication_date'] = data['publication_date'].dt.date
+        # to capitalize each row in the company_name column.
+        data['company_name'] = data['company_name'].str.strip()
+        data['company_name'] = data['company_name'].str.capitalize()
         model = load_bert_model()
         faiss_index = load_faiss_index()
         list_combined_keywords = load_keywords()
