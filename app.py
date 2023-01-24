@@ -201,9 +201,6 @@ def main():
         newline= '\n'
         # important columns - company_name, article_id, title, keywords, publication_date, abstract, journal, doi, authors
         # variables - user_input, filter_company, num_results
-        data['company_name'] = data['company_name'].apply(lambda x: x if x != '' else None)
-        data = data.dropna(subset=['company_name'])
-        comapny_list = list(set(data['company_name'].to_list()))
         
         # duplicate keywords are found - use set to remove duplicates - like blood,
         #"""This application attempts to automate searching thousands of abstracts focused on 97 selected for-profit published by companies focusing on anti-aging and longevity. These are funded over $10B."""
@@ -213,13 +210,14 @@ def main():
         st.write(" 💊 This does a semantic search over abstracts within :blue[anti-aging] & longevity industry and research*")
         user_input = st.text_area("Type below. I will try to be accurate. Pardon me if I reply nothing.", "Tell me about research in methylation using stem cells in mouse models")
         st.caption('Try these - 1) tell me how red meat affects cancer 2) show me research about how lung fibrosis occurs. etc')
-        
+        comapny_list = list(set(data['company_name'].to_list()))
         # Sidebar 
         # Filters
         st.sidebar.markdown("**Filters**")
         # User search
         
         # Keyword search
+        
         keyword_list = st.sidebar.multiselect('Select Keywords (**beta feature, choose multiple)',list_combined_keywords, ['x-ray crystallography','gfat2','haploid mouse embryonic stem cells']) #get dropdown of keywords     
         #filter by keywords, company and seed terms (stem cell, aging, etc) within th abstract and title
         #display the number of results, authors, companies, journals, keywords
