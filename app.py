@@ -48,7 +48,7 @@ def read_data(data="data/publications/final_database_of_papers.xlsx"):
     ['company_name', 'article_id', 'title', 'keywords', 'publication_date',
        'abstract', 'journal', 'doi'] are columns that are MUST in order to run the app"""
     try:
-        data = pd.read_excel(data)
+        data = pd.read_excel(data,index_col=0)
         #for some reason keyword lists are getting converted into strings - I have to stop storing data as csv 
         data['keywords'] = data['keywords'].apply(lambda x: literal_eval(x) if "[" in x else x)
         data = change_empty_lists_to_string(data,'keywords') #sorry next data version update will fix this
@@ -56,6 +56,7 @@ def read_data(data="data/publications/final_database_of_papers.xlsx"):
         data['publication_date'] = pd.to_datetime(data['publication_date'])
         data['publication_date'] = data['publication_date'].dt.date
         # to capitalize each row in the company_name column.
+        data['company_name'] = data['company_name'].str.strip()
         data['company_name'] = data['company_name'].str.capitalize()
         return data
     except Exception as e:
