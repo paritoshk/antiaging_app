@@ -111,18 +111,24 @@ def authors_data(data="data/publications/authors_dataframe.csv"):
 
 @st.cache(allow_output_mutation=True)
 def get_author_affiliation(df:pd.DataFrame,company_name=None,id_the=31740545):
-    """ function that prints author_name, affilaition given a pubmed_id"""
     #to avoid overflow id is given as sample value do not use it as is.
+    """ function that prints author_name, affilaition given a pubmed_id"""
     df_copy = df.copy(deep=True)
     if id_the:
         df_copy = df_copy[df_copy['pubmed_id']==id_the]
     if company_name:
-         df_copy = df_copy[df_copy['company_name']==company_name]
+        df_copy_list = []
+        for i in company_name:
+            df_copy_ele = df_copy[df_copy['company_name']==i]
+            df_copy_list.append(df_copy_ele)
+        df_copy = pd.concat(df_copy_list)
     df_copy = df_copy.reset_index(drop=True)
     print_list = []
     for i in range(len(df_copy['author_name'])):
         print_list.append('{0} is the author and {1} is the affiliation'.format(df_copy['author_name'][i], df_copy['affiliation'][i]))
     return df_copy[['author_name', 'affiliation']], print_list
+    
+        
     
         
 
@@ -193,7 +199,7 @@ def main():
         model = load_bert_model()
         faiss_index = load_faiss_index()
         list_combined_keywords = load_keywords()
-        authors_data = authors_data()
+        authors_data_df = authors_data()
         instructions = """
         \n 1. Enter a search term in the search box. Leaving the box empty and pressing (CTRL/CMD + ENTER) will show all publications. This is a free text semantic search and will return results based on context, meaning and concept.
         \n 2. Select keywords from the dropdown. The keyword search is a soft match. Free text has precedence over keywords.
@@ -245,6 +251,8 @@ def main():
             try:
                 if filter_company:
                     frame = data[data['company_name'].isin(filter_company)]
+                    author_frame_comps= get_author_affiliation(authors_data_df,filter_company)
+                    
                     if keyword_list:
                         index, matched_words = find_indexes_of_matching_keywords(keyword_list,frame,'keywords')
                         frame = display_dataframe_withindex(frame,index)
@@ -264,10 +272,13 @@ def main():
             st.bar_chart(company_namedf.T.head(10))
             st.subheader("2. Number of papers per jounral")
             st.bar_chart(journal_df.T.head(10))
+            with st.expander("Show all authors"):
+                st.write(author_frame_comps)
             
             for id_ in I.flatten().tolist():
                 if id_ in set(frame.article_id):
                     f = frame[(frame.article_id == id_)]
+                    author_frame = get_author_affiliation(authors_data_df,id_the= f.iloc[0].article_id)
                 else:
                     continue
                 
@@ -284,6 +295,9 @@ def main():
                     )
                 for i in f.iloc[0].keywords:
                         st.markdown('<p class="keyword-font">Top Keywords: {0}</p>'.format(i), unsafe_allow_html=True)
+                with st.expander("Show information about authros and affiliations"):
+                        st.write(author_frame)
+                
 
 
         else:
@@ -297,6 +311,7 @@ def main():
 
                 for id_ in set(frame.article_id):
                     f = frame[(frame.article_id == id_)]
+                    author_frame = get_author_affiliation(authors_data_df,id_the= f.iloc[0].article_id)
                     title_str = f.iloc[0].title
                     st.markdown('<p class="big-font">{0}</p>'.format(title_str), unsafe_allow_html=True)
                     st.markdown('<p class="medium-font">Affiliate Anti-Aging Company Name: {0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
@@ -311,6 +326,8 @@ def main():
                     )
                     for i in f.iloc[0].keywords:
                         st.markdown('<p class="keyword-font">{0}</p>'.format(i), unsafe_allow_html=True)
+                    with st.expander("Show information about authros and affiliations"):
+                        st.write(author_frame)
 
 
             
