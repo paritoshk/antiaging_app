@@ -218,7 +218,6 @@ def main():
         # User search
         
         # Keyword search
-        
         keyword_list = st.sidebar.multiselect('Select Keywords (**beta feature, choose multiple)',list_combined_keywords, ['x-ray crystallography','gfat2','haploid mouse embryonic stem cells']) #get dropdown of keywords     
         #filter by keywords, company and seed terms (stem cell, aging, etc) within th abstract and title
         #display the number of results, authors, companies, journals, keywords
@@ -281,8 +280,9 @@ def main():
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
-                for i in f.iloc[0].keywords:
-                        st.markdown('<p class="keyword-font">Top Keywords: {0}</p>'.format(i), unsafe_allow_html=True)
+                st.markdown('<p class="medium-font"> Top Keywords:</p>', unsafe_allow_html=True)
+                st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
+                # highlight author whose affliation is in the company list
                 with st.expander("Show information about authros and affiliations"):
                         st.write(author_frame)
                 
@@ -312,8 +312,8 @@ def main():
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
-                    for i in f.iloc[0].keywords:
-                        st.markdown('<p class="keyword-font">{0}</p>'.format(i), unsafe_allow_html=True)
+                    st.markdown('<p class="medium-font"> Top Keywords:</p>', unsafe_allow_html=True)
+                    st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
                     with st.expander("Show information about authros and affiliations"):
                         st.write(author_frame)
 
