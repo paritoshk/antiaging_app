@@ -23,12 +23,16 @@ st.markdown("""
     color:orange;
 }
 .medium-font {
-    font-size:20px;
+    font-size:22px;
     color:skyblue;
 }
 .small-font {
-    font-size:15px;
+    font-size:14px;
     color:grey;
+}
+.keyword-font {
+    font-size:18px;
+    color:lightgreen;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -229,7 +233,7 @@ def main():
         
         
         # Fetch results
-        if user_input:
+        if user_input or keyword_list:
             # Get paper IDs
             D, I = vector_search([user_input], model, faiss_index, num_results)
             # Slice data on comapny name
@@ -275,10 +279,10 @@ def main():
                     """
                     )
                 for i in f.iloc[0].keywords:
-                        st.markdown('<p class="medium-font">{0}</p>'.format(i), unsafe_allow_html=True)
+                        st.markdown('<p class="keyword-font">{0}</p>'.format(i), unsafe_allow_html=True)
 
 
-
+        else:
             try:
                 if filter_company:
                     frame = data[data['company_name'].isin(filter_company)]
@@ -305,7 +309,7 @@ def main():
                     """
                     )
                     for i in f.iloc[0].keywords:
-                        st.markdown('<p class="medium-font">{0}</p>'.format(i), unsafe_allow_html=True)
+                        st.markdown('<p class="keyword-font">{0}</p>'.format(i), unsafe_allow_html=True)
 
 
             
