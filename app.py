@@ -316,7 +316,7 @@ def main():
                 
                 # highlight author whose affliation is in the company list
                 with st.expander("Show information about authors and affiliations"):
-                        st.write(highlight_company_auths(f.iloc[0].company_name,author_frame))
+                        st.dataframe(highlight_company_auths(f.iloc[0].company_name,author_frame))
                 
 
 
@@ -357,7 +357,7 @@ def main():
                     else:
                         st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
                     with st.expander("Show information about authors and affiliations"):
-                        st.write(highlight_company_auths(f.iloc[0].company_name,author_frame))
+                        st.dataframe(highlight_company_auths(f.iloc[0].company_name,author_frame))
 
 
             
