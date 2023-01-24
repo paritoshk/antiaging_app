@@ -326,11 +326,12 @@ def main():
         st.caption("""The data about the companies is taken from [this](https://agingbiotech.info/companies) maintained by investor and creator Karl Pfleger.""")
 
         st.caption("**Keyword feature may contain duplicates and is in beta mode. *Search results may not reflect all information available in the PubMed database, please search the title or DOI to get more information.")
-        st.write("**Stats**")
-        st.write("Total number of publications: ", len(data))
-        st.write("Total number of companies: ", len(company_list))
-        st.write("Total number of keywords: ", len(list_combined_keywords))
-        st.write("Total number of journals: ", len(set(data['journal'].to_list())))
+        st.subheader("**Stats**")
+        st.write("Total number of (Counter)..-> ")
+        st.write("Publications:", len(data))
+        st.write("Companies: ", len(company_list))
+        st.write("Keywords: ", len(list_combined_keywords))
+        st.write("Journals: ", len(set(data['journal'].to_list())))
     except Exception as e:
         st.write(e)
         st.write('**Sorry! We are working on imrpoving the app.**')
