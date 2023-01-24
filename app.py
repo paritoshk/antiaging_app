@@ -61,6 +61,7 @@ def read_data(data="data/publications/final_database_of_papers.xlsx"):
         data['publication_date'] = data['publication_date'].dt.date
         # to capitalize each row in the company_name column.
         data['company_name'] = data['company_name'].str.strip()
+        data.drop_na(inplace=True)
         data['company_name'] = data['company_name'].str.capitalize()
         return data
     except Exception as e:
