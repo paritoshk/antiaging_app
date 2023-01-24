@@ -127,6 +127,27 @@ def get_author_affiliation(df:pd.DataFrame,company_name=None,id_the=31740545):
     return df_copy[['author_name', 'affiliation']], print_list
 
 @st.cache(allow_output_mutation=True)
+def highlight_company_auths(match_string:str,case_df:pd.DataFrame)->pd.DataFrame:
+    
+    """ function to highlight a string in a dataframe column
+    must contain affiliation column
+    """
+
+    match_string = match_string.lower()
+    match_index = []
+    for i in range(len(case_df['affiliation'])):
+        affiliation_string = (case_df['affiliation'][i]).lower()
+        for j in match_string.split():
+            if j in affiliation_string:
+                if i not in match_index:
+                    match_index.append(i)
+            else:
+                continue
+    df_copy = case_df.copy(deep=True)
+    df_copy.iloc[match_index] = df_copy.iloc[match_index].style.apply(lambda x: ["background: yellow"])
+    return df_copy
+
+@st.cache(allow_output_mutation=True)
 def load_bert_model():
     """Instantiate a sentence-level model."""
     return SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
@@ -295,7 +316,7 @@ def main():
                 
                 # highlight author whose affliation is in the company list
                 with st.expander("Show information about authors and affiliations"):
-                        st.write(author_frame)
+                        st.write(highlight_company_auths(f.iloc[0].company_name,author_frame))
                 
 
 
@@ -336,7 +357,7 @@ def main():
                     else:
                         st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
                     with st.expander("Show information about authors and affiliations"):
-                        st.write(author_frame)
+                        st.write(highlight_company_auths(f.iloc[0].company_name,author_frame))
 
 
             
