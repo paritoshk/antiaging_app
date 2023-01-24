@@ -201,7 +201,7 @@ def main():
         newline= '\n'
         # important columns - company_name, article_id, title, keywords, publication_date, abstract, journal, doi, authors
         # variables - user_input, filter_company, num_results
-        comapny_list = list(set(data['company_name']))
+        company_list = list(set(data['company_name']).to_list())
         # duplicate keywords are found - use set to remove duplicates - like blood,
         #"""This application attempts to automate searching thousands of abstracts focused on 97 selected for-profit published by companies focusing on anti-aging and longevity. These are funded over $10B."""
         st.title("🧬 Longevity-AI 🧪")
@@ -221,7 +221,7 @@ def main():
         keyword_list = st.sidebar.multiselect('Select Keywords (**beta feature, choose multiple)',list_combined_keywords, ['x-ray crystallography','gfat2','haploid mouse embryonic stem cells']) #get dropdown of keywords     
         #filter by keywords, company and seed terms (stem cell, aging, etc) within th abstract and title
         #display the number of results, authors, companies, journals, keywords
-        filter_company = st.sidebar.multiselect('Select a Company or Companies',comapny_list, "Altos labs") #get dropdown of companies
+        filter_company = st.sidebar.multiselect('Select a Company or Companies',company_list, "Altos labs") #get dropdown of companies
         num_results = st.sidebar.slider("Number of search results", 5,20, 5)
         # Instructions
         
