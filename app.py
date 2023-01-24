@@ -93,14 +93,11 @@ def find_indexes_of_matching_keywords(list_of_keywords,df,column):
                          matched_words.append((p,df[column][i][j]))
     return indexes, matched_words
 
-
 @st.cache(allow_output_mutation=True)
 def display_dataframe_withindex(df,indexes):
     """Display dataframe."""
     df_display = df.iloc[indexes]
     return df_display
-
-
 
 @st.cache(allow_output_mutation=True)
 def authors_data(data="data/publications/authors_dataframe.csv"):
@@ -127,10 +124,6 @@ def get_author_affiliation(df:pd.DataFrame,company_name=None,id_the=31740545):
     for i in range(len(df_copy['author_name'])):
         print_list.append('{0} is the author and {1} is the affiliation'.format(df_copy['author_name'][i], df_copy['affiliation'][i]))
     return df_copy[['author_name', 'affiliation']], print_list
-    
-        
-    
-        
 
 @st.cache(allow_output_mutation=True)
 def load_bert_model():
