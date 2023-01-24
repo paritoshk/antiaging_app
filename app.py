@@ -201,7 +201,7 @@ def main():
         newline= '\n'
         # important columns - company_name, article_id, title, keywords, publication_date, abstract, journal, doi, authors
         # variables - user_input, filter_company, num_results
-        comapny_list = list(set(data['company_name'].to_list()))
+        comapny_list = list(set(data['company_name']))
         # duplicate keywords are found - use set to remove duplicates - like blood,
         #"""This application attempts to automate searching thousands of abstracts focused on 97 selected for-profit published by companies focusing on anti-aging and longevity. These are funded over $10B."""
         st.title("🧬 Longevity-AI 🧪")
