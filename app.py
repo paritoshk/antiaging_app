@@ -61,7 +61,6 @@ def read_data(data="data/publications/final_database_of_papers.xlsx"):
         data['publication_date'] = data['publication_date'].dt.date
         # to capitalize each row in the company_name column.
         data['company_name'] = data['company_name'].str.strip()
-        data.drop_na(inplace=True)
         data['company_name'] = data['company_name'].str.capitalize()
         return data
     except Exception as e:
@@ -279,7 +278,7 @@ def main():
             for id_ in I.flatten().tolist():
                 if id_ in set(frame.article_id):
                     f = frame[(frame.article_id == id_)]
-                    author_frame = get_author_affiliation(authors_data_df,id_the= f.iloc[0].article_id)
+                    author_frame = get_author_affiliation(authors_data_df,id_the= f.iloc[0].article_id)[0]
                 else:
                     continue
                 
@@ -312,7 +311,7 @@ def main():
 
                 for id_ in set(frame.article_id):
                     f = frame[(frame.article_id == id_)]
-                    author_frame = get_author_affiliation(authors_data_df,id_the= f.iloc[0].article_id)
+                    author_frame = get_author_affiliation(authors_data_df,id_the= f.iloc[0].article_id)[0]
                     title_str = f.iloc[0].title
                     st.markdown('<p class="big-font">{0}</p>'.format(title_str), unsafe_allow_html=True)
                     st.markdown('<p class="medium-font">Affiliate Anti-Aging Company Name: {0}</p>'.format(f.iloc[0].company_name.capitalize()), unsafe_allow_html=True)
