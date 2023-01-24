@@ -9,6 +9,7 @@ import random
 from collections import Counter
 import seaborn as sns
 from ast import literal_eval
+import openpyxl
 st.set_page_config(layout="wide",page_title='Longevity AI', page_icon = '🤖', initial_sidebar_state = 'auto')
 #author: @parikul
 #display authors from paper database
