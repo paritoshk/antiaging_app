@@ -208,6 +208,8 @@ def main():
         newline= '\n'
         # important columns - company_name, article_id, title, keywords, publication_date, abstract, journal, doi, authors
         # variables - user_input, filter_company, num_results
+        data['company_name'] = data['company_name'].apply(lambda x: x if x != '' else None)
+        data = data.dropna(subset=['company_name'])
         comapny_list = list(set(data['company_name'].to_list()))
         
         # duplicate keywords are found - use set to remove duplicates - like blood,
