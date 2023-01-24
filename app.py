@@ -251,7 +251,6 @@ def main():
             try:
                 if filter_company:
                     frame = data[data['company_name'].isin(filter_company)]
-                    author_frame_comps= get_author_affiliation(authors_data_df,filter_company)
                     
                     if keyword_list:
                         index, matched_words = find_indexes_of_matching_keywords(keyword_list,frame,'keywords')
@@ -272,8 +271,7 @@ def main():
             st.bar_chart(company_namedf.T.head(10))
             st.subheader("2. Number of papers per jounral")
             st.bar_chart(journal_df.T.head(10))
-            with st.expander("Show all authors"):
-                st.write(author_frame_comps)
+
             
             for id_ in I.flatten().tolist():
                 if id_ in set(frame.article_id):
