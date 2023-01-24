@@ -327,7 +327,7 @@ def main():
 
         st.caption("**Keyword feature may contain duplicates and is in beta mode. *Search results may not reflect all information available in the PubMed database, please search the title or DOI to get more information.")
         st.subheader("**Stats**")
-        st.write("Total number of (Counter)..-> ")
+        st.write("Total number of (Counter)...")
         st.write("Publications:", len(data))
         st.write("Companies: ", len(company_list))
         st.write("Keywords: ", len(list_combined_keywords))
