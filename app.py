@@ -143,8 +143,9 @@ def highlight_company_auths(match_string:str,case_df:pd.DataFrame)->list:
                     match_index.append(i)
             else:
                 continue
-    
-    return match_index
+    df_copy = case_df.copy(deep=True)
+    df_copy.iloc[match_index] = df_copy.iloc[match_index].style.apply(lambda x: ["background: lightpink"])
+    return df_copy
 
 @st.cache(allow_output_mutation=True)
 def load_bert_model():
@@ -315,11 +316,7 @@ def main():
                 
                 # highlight author whose affliation is in the company list
                 with st.expander("Show information about authors and affiliations"):
-                        st.dataframe(author_frame)
-                with st.expander("Show ONLY affiliations working in the company"):
-                    index = highlight_company_auths(f.iloc[0].company_name,author_frame)
-                    frame_sample = (author_frame.iloc[index]).reset_index(drop=True)
-                    st.table(frame_sample.style.apply(lambda x: ["background: yellow"]))
+                        st.table(highlight_company_auths(f.iloc[0].company_name,author_frame))
                 
 
 
@@ -360,12 +357,7 @@ def main():
                     else:
                         st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
                     with st.expander("Show information about authors and affiliations"):
-                            st.dataframe(author_frame)
-                    with st.expander("Show ONLY affiliations working in the company"):
-                            index = highlight_company_auths(f.iloc[0].company_name,author_frame)
-                            frame_sample = (author_frame.iloc[index]).reset_index(drop=True)
-                            st.table(frame_sample.style.apply(lambda x: ["background: yellow"]))
-
+                        st.table(highlight_company_auths(f.iloc[0].company_name,author_frame))
 
             
             except:
