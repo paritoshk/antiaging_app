@@ -12,7 +12,7 @@ from ast import literal_eval
 st.set_page_config(layout="wide",page_title='Longevity AI', page_icon = '🤖', initial_sidebar_state = 'auto')
 #author: @parikul
 #display authors from paper database
-#display keyword and authors for dropdown 
+# DOI Is removed from the display - because of errors in the data
 #add wordcloud barplot and gpt2 sumamry of what each company is working on and in what topic model
 #analysis of main Karls data
 
@@ -274,12 +274,11 @@ def main():
                         f"""
                     {newline}**Journal**: {f.iloc[0].journal}  
                     {newline}**Publication Date**: {f.iloc[0].publication_date}  
-                    {newline}**DOI**: *{f.iloc[0].doi.split(newline)[0]}*
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
                 for i in f.iloc[0].keywords:
-                        st.markdown('<p class="keyword-font">{0}</p>'.format(i), unsafe_allow_html=True)
+                        st.markdown('<p class="keyword-font">Top Keywords: {0}</p>'.format(i), unsafe_allow_html=True)
 
 
         else:
@@ -304,7 +303,6 @@ def main():
                         f"""
                     {newline}**Journal**: {f.iloc[0].journal}  
                     {newline}**Publication Date**: {f.iloc[0].publication_date} 
-                    {newline}**DOI**: *{f.iloc[0].doi.split(newline)[0]}*
                     {newline}**Abstract**: {f.iloc[0].abstract}
                     """
                     )
