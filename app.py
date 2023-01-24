@@ -281,9 +281,20 @@ def main():
                     """
                     )
                 st.markdown('<p class="medium-font"> Top Keywords:</p>', unsafe_allow_html=True)
-                st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
+                if f.iloc[0].keywords is not 'Nothing here':
+                        if len(f.iloc[0].keywords) > 1:
+                            keyword_string = ', '.join(f.iloc[0].keywords)
+                            for i in keyword_list:
+                                keyword_string = keyword_string.replace(i,'**'+i+'**')
+                            st.markdown('<p class="keyword-font">{0}</p>'.format(keyword_string), unsafe_allow_html=True)
+                        else:
+                            for i in f.iloc[0].keywords:
+                                st.markdown('<p class="keyword-font">{0}</p>'.format(i), unsafe_allow_html=True)
+                else:
+                        st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
+                
                 # highlight author whose affliation is in the company list
-                with st.expander("Show information about authros and affiliations"):
+                with st.expander("Show information about authors and affiliations"):
                         st.write(author_frame)
                 
 
@@ -313,8 +324,18 @@ def main():
                     """
                     )
                     st.markdown('<p class="medium-font"> Top Keywords:</p>', unsafe_allow_html=True)
-                    st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
-                    with st.expander("Show information about authros and affiliations"):
+                    if f.iloc[0].keywords is not 'Nothing here':
+                        if len(f.iloc[0].keywords) > 1:
+                            keyword_string = ', '.join(f.iloc[0].keywords)
+                            for i in keyword_list:
+                                keyword_string = keyword_string.replace(i,'**'+i+'**')
+                            st.markdown('<p class="keyword-font">{0}</p>'.format(keyword_string), unsafe_allow_html=True)
+                        else:
+                            for i in f.iloc[0].keywords:
+                                st.markdown('<p class="keyword-font">{0}</p>'.format(i), unsafe_allow_html=True)
+                    else:
+                        st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
+                    with st.expander("Show information about authors and affiliations"):
                         st.write(author_frame)
 
 
