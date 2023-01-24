@@ -65,7 +65,7 @@ def read_data(data="data/publications/final_database_of_papers.xlsx"):
         return data
     except Exception as e:
         print(e)
-        return None
+         
     
 @st.cache(allow_output_mutation=True)
 def find_indexes_of_matching_keywords(list_of_keywords,df,column):
@@ -207,7 +207,7 @@ def main():
         st.title("🧬 Longevity-AI 🧪")
         st.header("👨‍🔬: Hi! I am  your due diligence associate.")
         st.write("🤖: Ask me about the :blue[anti-aging] industry. Please try to be specific and elaborate. I am still learning.")
-        st.write(" 💊 This does a semantic search over abstracts within :blue[anti-aging] & longevity industry and research*")
+        st.write(" 💊: This does a semantic search over abstracts within :blue[anti-aging] & longevity industry and research*")
         user_input = st.text_area("Type below. I will try to be accurate. Pardon me if I reply nothing.", "Tell me about research in methylation using stem cells in mouse models")
         st.caption('Try these - 1) tell me how red meat affects cancer 2) show me research about how lung fibrosis occurs. etc')
         
@@ -230,7 +230,7 @@ def main():
         st.sidebar.markdown("*If no results appear - try broadening your criteria, keywords or deslecting your filters*")
         st.sidebar.write("**Stats**")
         st.sidebar.write("Total number of publications: ", len(data))
-        st.sidebar.write("Total number of companies: ", len(comapny_list))
+        st.sidebar.write("Total number of companies: ", len(company_list))
         st.sidebar.write("Total number of keywords: ", len(list_combined_keywords))
         st.sidebar.write("Total number of journals: ", len(set(data['journal'].to_list())))
         
