@@ -189,17 +189,7 @@ def main():
     try:
     
         # Load data and models
-        path = 'data/publications/final_database_of_papers.xlsx'
-        data = pd.read_excel(path,index_col=0)
-        #for some reason keyword lists are getting converted into strings - I have to stop storing data as csv 
-        data['keywords'] = data['keywords'].apply(lambda x: literal_eval(x) if "[" in x else x)
-        data = change_empty_lists_to_string(data,'keywords') #sorry next data version update will fix this
-        # datetime conversation for display
-        data['publication_date'] = pd.to_datetime(data['publication_date'])
-        data['publication_date'] = data['publication_date'].dt.date
-        # to capitalize each row in the company_name column.
-        data['company_name'] = data['company_name'].str.strip()
-        data['company_name'] = data['company_name'].str.capitalize()
+        data = read_data()
         model = load_bert_model()
         faiss_index = load_faiss_index()
         list_combined_keywords = load_keywords()
@@ -212,7 +202,7 @@ def main():
         newline= '\n'
         # important columns - company_name, article_id, title, keywords, publication_date, abstract, journal, doi, authors
         # variables - user_input, filter_company, num_results
-        company_list = list(set(data['company_name']).to_list())
+        company_list = list(set(data['company_name'].to_list()))
         # duplicate keywords are found - use set to remove duplicates - like blood,
         #"""This application attempts to automate searching thousands of abstracts focused on 97 selected for-profit published by companies focusing on anti-aging and longevity. These are funded over $10B."""
         st.title("🧬 Longevity-AI 🧪")
