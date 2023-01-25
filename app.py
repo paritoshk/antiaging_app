@@ -312,10 +312,13 @@ def main():
                 else:
                         st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
                 # highlight author whose affliation is in the company list
+                st.markdown('<p class="medium-font">Authors:</p>', unsafe_allow_html=True)
                 with st.expander("Show  affiliations working in the company"):
                             index_temp = highlight_company_auths(f.iloc[0].company_name,author_frame)
                             frame_sample = (author_frame.iloc[index_temp]).reset_index(drop=True)
-                            st.table(frame_sample.style.apply(lambda x: ["background: lightyellow"]))
+                            st.table(frame_sample.style.apply(lambda x: ["background: lightred"]))
+                with st.expander("Show  All authors"):
+                    st.table(author_frame)
 
 
 
@@ -355,10 +358,13 @@ def main():
                                 st.markdown('<p class="keyword-font">{0}</p>'.format(i), unsafe_allow_html=True)
                     else:
                         st.markdown('<p class="keyword-font">{0}</p>'.format(f.iloc[0].keywords), unsafe_allow_html=True)
+                    st.markdown('<p class="medium-font">Authors:</p>', unsafe_allow_html=True)
                     with st.expander("Show  affiliations working in the company"):
                             index_temp = highlight_company_auths(f.iloc[0].company_name,author_frame)
                             frame_sample = (author_frame.iloc[index_temp]).reset_index(drop=True)
-                            st.table(frame_sample.style.apply(lambda x: ["background: lightyellow"]))
+                            st.table(frame_sample.style.apply(lambda x: ["background: lightred"]))
+                    with st.expander("Show  All authors"):
+                        st.table(author_frame)
 
 
             
