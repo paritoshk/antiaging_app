@@ -315,7 +315,7 @@ def main():
                 with st.expander("Show  affiliations working in the company"):
                             index_temp = highlight_company_auths(f.iloc[0].company_name,author_frame)
                             frame_sample = (author_frame.iloc[index_temp]).reset_index(drop=True)
-                            st.table(frame_sample.style.apply(lambda x: ["background: lighpink"]))
+                            st.table(frame_sample.style.apply(lambda x: ["background: lightblue"]))
 
 
 
@@ -358,7 +358,7 @@ def main():
                     with st.expander("Show  affiliations working in the company"):
                             index_temp = highlight_company_auths(f.iloc[0].company_name,author_frame)
                             frame_sample = (author_frame.iloc[index_temp]).reset_index(drop=True)
-                            st.table(frame_sample.style.apply(lambda x: ["background: skyblue"]))
+                            st.table(frame_sample.style.apply(lambda x: ["background: lightblue"]))
 
 
             
