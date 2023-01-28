@@ -315,7 +315,7 @@ def main():
             journal_df = frame['journal'].value_counts().rename_axis('unique_values')
             st.subheader("1. Number of papers per company")
             st.bar_chart(company_namedf.T.head(10))
-            st.subheader("2. Number of papers per jounral")
+            st.subheader("2. Number of papers per journal")
             st.bar_chart(journal_df.T.head(10))
 
 
