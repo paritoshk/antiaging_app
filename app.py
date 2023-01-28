@@ -206,7 +206,6 @@ def frame_builder(data,filter_company,keyword_list):
 
 def main():
     try:
-    
         # Load data and models
         data = read_data()
         model = load_bert_model()
@@ -243,13 +242,10 @@ def main():
         filter_company = st.sidebar.multiselect('Select a Company or Companies',company_list, "Altos labs") #get dropdown of companies
         num_results = st.sidebar.slider("Number of search results", 5,20, 5)
         # Instructions
-        
         st.sidebar.markdown("**Instructions**")
         st.sidebar.markdown('<p class="small-font">{0}</p>'.format(instructions), unsafe_allow_html=True)
         st.sidebar.markdown("*If no results appear - try broadening your criteria, keywords or deslecting your filters*")
 
-        
-        
         
         # Fetch results
         if user_input or keyword_list:
@@ -270,17 +266,8 @@ def main():
 
             except:
                 pass #see if this works if you have multiple companies
-            # Get individual results
-            # summary barplots
-            st.header("Summary plots, followed by results - top 10")
-            company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
-            journal_df = frame['journal'].value_counts().rename_axis('unique_values')
-            st.subheader("1. Number of papers per company")
-            st.bar_chart(company_namedf.T.head(10))
-            st.subheader("2. Number of papers per jounral")
-            st.bar_chart(journal_df.T.head(10))
 
-            
+
             for id_ in I.flatten().tolist():
                 if id_ in set(frame.article_id):
                     f = frame[(frame.article_id == id_)]
@@ -319,6 +306,17 @@ def main():
                             st.table(frame_sample.style.apply(lambda x: ["background: darkred"]))
                 with st.expander("Show  All authors"):
                     st.table(author_frame)
+                    
+            # Get individual results
+            # summary barplots
+            
+            st.header("Summary plots, followed by results - top 10")
+            company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
+            journal_df = frame['journal'].value_counts().rename_axis('unique_values')
+            st.subheader("1. Number of papers per company")
+            st.bar_chart(company_namedf.T.head(10))
+            st.subheader("2. Number of papers per jounral")
+            st.bar_chart(journal_df.T.head(10))
 
 
 
