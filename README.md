@@ -1,12 +1,11 @@
 # Longevity AI
-### A conversation AI that returns key information about research area  
-### Semantic search across vast database of pre-selected companies leading inthe space
-### Tools - Streamlit, Hugging Face Sentence Xformers and Pandas
+### A conversation AI that returns critical information about the research area  
+### Semantic search across the vast database of pre-selected companies leading in the space
+### Tools - Streamlit, Hugging Face Sentence Xformers, and Pandas
 
-Are you curious about whether we are close to unlocking secrets of immortality? Where is science going about anti-aging? Don't have time to read 3000+ research papers published by startups with over $10 Billion in funding? Are you a individual investor, and interested in seeing due diligence on these startups? 
+Are you curious about whether we are close to unlocking the secrets of immortality? Where is science going about anti-aging? Need more time to read 3000+ research papers published by startups with over $10 Billion in funding? Are you an individual investor and interested in seeing due diligence on these startups? 
 
-You have landed on the right spot. This application is a semantic search engine that attempts to automates steps of competitive landscape, topic modeling and builds a mental knowledge graph that spark thoughts, discussions and decisions.
-
+You have landed on the right spot. This application is a semantic search engine that attempts to automate steps of the competitive landscape and topic modeling and builds a mental knowledge graph that sparks thoughts, discussions, and decisions.
 ## More info
 
 ![1](https://user-images.githubusercontent.com/9400939/215384283-a4eab303-d204-4857-afb0-67c2a9a521f3.png)
