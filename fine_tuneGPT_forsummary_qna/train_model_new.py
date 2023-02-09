@@ -4,7 +4,8 @@ import math
 import os
 import warnings
 from timeit import default_timer as timer
-import torch
+
+import wandb
 from transformers import (
     MODEL_WITH_LM_HEAD_MAPPING,
     AutoConfig,
@@ -19,11 +20,10 @@ from transformers import (
 )
 
 warnings.filterwarnings("ignore")
-
+wandb.login()
 
 start = "<|startoftext|>"
 sep = "<|sep|>"
-
 
 def dict2obj(d):
     """Convert a dictionary to a class"""
