@@ -363,6 +363,16 @@ def main():
                             st.table(frame_sample.style.apply(lambda x: ["background: darkred"]))
                     with st.expander("Show  All authors"):
                         st.table(author_frame)
+                                # Get individual results
+                # summary barplots
+                
+                st.header("Summary plots, followed by results - top 10")
+                company_namedf = frame['company_name'].value_counts().rename_axis('unique_values')
+                journal_df = frame['journal'].value_counts().rename_axis('unique_values')
+                st.subheader("1. Number of papers per company")
+                st.bar_chart(company_namedf.T.head(10))
+                st.subheader("2. Number of papers per journal")
+                st.bar_chart(journal_df.T.head(10))
 
 
             
