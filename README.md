@@ -1,9 +1,8 @@
 # Longevity AI
-### A conversation AI that returns critical information about the research area  
+### A conversational AI that returns critical information about the research area  
 ### Semantic search across the vast database of pre-selected companies leading in the space
 ### Tools - Streamlit, Hugging Face Sentence Xformers, and Pandas
 
-<<<<<<< HEAD
 Are you curious about whether we are close to unlocking the secrets of immortality? Where is science going about anti-aging? Need more time to read 3000+ research papers published by startups with over $10 Billion in funding? Are you an individual investor and interested in seeing due diligence on these startups? 
 
 You have landed on the right spot. This application is a semantic search engine that attempts to automate steps of the competitive landscape and topic modeling and builds a mental knowledge graph that sparks thoughts, discussions, and decisions.
@@ -23,4 +22,4 @@ You have landed on the right spot. This application is a semantic search engine 
 Refer:
 https://towardsdatascience.com/arxiv-scientific-papers-vector-similarity-search-15059970a73a
 https://towardsdatascience.com/topic-modeling-with-lsa-plsa-lda-nmf-bertopic-top2vec-a-comparison-5e6ce4b1e4a5
->>>>>>> 453556d (added new method)
+
