@@ -88,6 +88,11 @@ def getentities_fromabstract(abstract):
     df_sub_entity['text'] = df_sub_entity['entity_id'].map(dict_text)
     df_sub_entity['text_sha256'] = df_sub_entity['entity_id'].map(dict_hash)
     return df_sub_entity
+
+
+if __name__ == "__main__":
+    df = pd.read_excel('data/publications/final_database_of_papers.xlsx')
+    
     
     
     
