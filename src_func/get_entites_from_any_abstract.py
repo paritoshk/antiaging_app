@@ -4,6 +4,7 @@ import requests
 import pandas as pd
 import re
 import nltk
+import pickle
 #nltk.download('punkt')
 
 # this function can extract NER entites using BERN2
@@ -89,9 +90,19 @@ def getentities_fromabstract(abstract):
     df_sub_entity['text_sha256'] = df_sub_entity['entity_id'].map(dict_hash)
     return df_sub_entity
 
+def loop_through_abstracts(df, column):
+    entity_list = []
+    for i in range(len(df)):
+        abstract = df[column][i]
+        entity_list.append(getentities_fromabstract(abstract))
+    return entity_list
 
 if __name__ == "__main__":
     df = pd.read_excel('data/publications/final_database_of_papers.xlsx')
+    len(df['abstract'])
+    entity_list_pickle= loop_through_abstracts(df, 'abstract')
+    pickle(entity_list_pickle, 'data/publications/abstract_entities.pkl')
+    
     
     
     

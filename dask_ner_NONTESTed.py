@@ -97,7 +97,9 @@ def getentities_fromabstract(abstract):
 
 #Now make dataframe_list into dd frame
 #To convert dataframe_list into a Dask dataframe, you can use the from_delayed function from the dask.dataframe module. Here's an example:
-
+df = getentities_fromabstract(pd.DataFrame({'abstract': ['This is a test', 'This is another test']}))
+df = dd.from_pandas(df, npartitions=1)
+df = df.compute()
 
 # Use delayed to create a list of delayed objects for each DataFrame
 delayed_dfs = [delayed(getentities_fromabstract)(text) for text in df['abstract']]

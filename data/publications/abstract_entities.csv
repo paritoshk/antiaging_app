@@ -1,0 +1,18 @@
+entity_id,other_ids,entity_type,entity,text,text_sha256
+0,['mesh:D020274'],disease,Pediatric autoimmune neuropsychiatric disorders,"Pediatric autoimmune neuropsychiatric disorders associated with group A streptococcal infections (PANDAS) is a concept that is used to characterize a subset of children with neuropsychiatric symptoms, tic disorders, or obsessive-compulsive disorder (OCD), whose symptoms are exacerbated by group A streptococcal (GAS) infection.",4b3b92a1573c8e235d301c9ba27de2bd7127ac7d5d56fe5e4148788f4ac83693
+1,['mesh:D013290'],disease,group A streptococcal infections,PANDAS has been known to cause a sudden onset of reward deficiency syndrome (RDS).,e8731b600b559281119660d0644d7a7c80cd2c8a9752219ec4b80c55de0e7232
+2,"['mesh:C536253', 'mim:604416']",disease,PANDAS,"RDS includes multiple disorders that are characterized by dopaminergic signaling dysfunction in the brain reward cascade (BRC), which may result in addiction, depression, avoidant behaviors, anxiety, tic disorders, and/or OCD.",1d4650b5a1a6aa4d232abe98262799a97795ff4b08fe8a162f21e09f8dcafe0f
+3,['NCBITaxon:9606'],species,children,,
+4,['mesh:D001523'],disease,neuropsychiatric,,
+5,"['mesh:D009771', 'mim:164230']",disease,obsessive-compulsive disorder,,
+6,"['mesh:D009771', 'mim:164230']",disease,OCD,,
+7,['mesh:D013290'],disease,group A streptococcal (GAS) infection,,
+0,"['mesh:C536253', 'mim:604416']",disease,PANDAS,"Pediatric autoimmune neuropsychiatric disorders associated with group A streptococcal infections (PANDAS) is a concept that is used to characterize a subset of children with neuropsychiatric symptoms, tic disorders, or obsessive-compulsive disorder (OCD), whose symptoms are exacerbated by group A streptococcal (GAS) infection.",4b3b92a1573c8e235d301c9ba27de2bd7127ac7d5d56fe5e4148788f4ac83693
+1,['mesh:D000073932'],disease,reward deficiency syndrome,PANDAS has been known to cause a sudden onset of reward deficiency syndrome (RDS).,e8731b600b559281119660d0644d7a7c80cd2c8a9752219ec4b80c55de0e7232
+2,['mesh:D012127'],disease,RDS,"RDS includes multiple disorders that are characterized by dopaminergic signaling dysfunction in the brain reward cascade (BRC), which may result in addiction, depression, avoidant behaviors, anxiety, tic disorders, and/or OCD.",1d4650b5a1a6aa4d232abe98262799a97795ff4b08fe8a162f21e09f8dcafe0f
+0,['mesh:D012127'],disease,RDS,"Pediatric autoimmune neuropsychiatric disorders associated with group A streptococcal infections (PANDAS) is a concept that is used to characterize a subset of children with neuropsychiatric symptoms, tic disorders, or obsessive-compulsive disorder (OCD), whose symptoms are exacerbated by group A streptococcal (GAS) infection.",4b3b92a1573c8e235d301c9ba27de2bd7127ac7d5d56fe5e4148788f4ac83693
+1,['mesh:D019966'],disease,addiction,PANDAS has been known to cause a sudden onset of reward deficiency syndrome (RDS).,e8731b600b559281119660d0644d7a7c80cd2c8a9752219ec4b80c55de0e7232
+2,['mesh:D009497'],disease,depression,"RDS includes multiple disorders that are characterized by dopaminergic signaling dysfunction in the brain reward cascade (BRC), which may result in addiction, depression, avoidant behaviors, anxiety, tic disorders, and/or OCD.",1d4650b5a1a6aa4d232abe98262799a97795ff4b08fe8a162f21e09f8dcafe0f
+3,"['mesh:D001008', 'mim:607834']",disease,anxiety,,
+4,['mesh:D013981'],disease,tic disorders,,
+5,"['mesh:D009771', 'mim:164230']",disease,OCD,,
