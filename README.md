@@ -19,7 +19,6 @@ You have landed on the right spot. This application is a semantic search engine 
 ![6](https://user-images.githubusercontent.com/9400939/215384297-df7dfd86-f93f-4935-9140-7e9550d1d7c2.png)
 ![7](https://user-images.githubusercontent.com/9400939/215384298-aec3f685-c427-434b-b276-f77bf714fc67.png)
 =======
-You have landed on the right spot. This application is a semantic search engine that attempts to automates steps of competitive landscape, topic modeling and builds a mental knowledge graph that spark thoughts, discussions and decisions.
 
 
 Refer:
