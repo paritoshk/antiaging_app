@@ -4,7 +4,8 @@
 ### Tools - Streamlit, Hugging Face Sentence Xformers, and Pandas
 https://longevityai.streamlit.app/
 
-<img src="https://user-images.githubusercontent.com/9400939/224515205-e293b7aa-408b-4d80-b921-4b19849259fc.png" width="150" height="180" />
+
+![LongevityApp]<img src="https://user-images.githubusercontent.com/9400939/227796812-b5a4adf6-f046-4b28-abcb-13aa012382e0.png" width="150" height="150" />
 
 Are you curious about whether we are close to unlocking the secrets of immortality? Where is science going about anti-aging? Need more time to read 3000+ research papers published by startups with over $10 Billion in funding? Are you an individual investor and interested in seeing due diligence on these startups? 
 
